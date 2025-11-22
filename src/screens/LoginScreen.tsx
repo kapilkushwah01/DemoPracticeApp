@@ -12,9 +12,12 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 const { width } = Dimensions.get('window');
+import { AuthStackParamList   } from '../navigation/AuthStack';
+type Props = NativeStackScreenProps<AuthStackParamList   , 'LogIn'>;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const LoginScreen = () => {
+const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -101,7 +104,7 @@ const LoginScreen = () => {
               />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.btnFacebook} activeOpacity={0.85}>
+          <TouchableOpacity onPress={()=>navigation.navigate('AppStack')} style={styles.btnFacebook} activeOpacity={0.85}>
             <Text style={styles.btnTextWhite}>Submit</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnFacebook} activeOpacity={0.85}>

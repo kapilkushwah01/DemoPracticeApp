@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/RootNavigation';
-type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
+import { AuthStackParamList } from '../navigation/AuthStack';
+type Props = NativeStackScreenProps<AuthStackParamList, 'Splash'>;
 const { height } = Dimensions.get('window');
 
 const SplashScreen: React.FC<Props> = ({ navigation }) => {

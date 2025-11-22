@@ -98,7 +98,7 @@ const HomeScreen = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <View style={{ paddingHorizontal: 10 }}>
         <TextInput
           placeholder="Search Item"
           style={styles.inputcontainer}
@@ -117,6 +117,7 @@ const HomeScreen = () => {
         data={searchText.length > 0 ? filterData : data}
         keyExtractor={item => item.id.toString()}
         initialNumToRender={10}
+        contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (
           <View style={styles.bodyview}>
             <Text
@@ -183,9 +184,13 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 10,
+    marginTop: 20,
     // padding:10,
     // backgroundColor:"white"
+  },
+  listContent: {
+    paddingHorizontal: 10, // Add side padding to the list content
+    paddingTop: 10,
   },
   bodyview: {
     backgroundColor: '#7870eeff',
@@ -217,6 +222,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 10,
     marginTop: 10,
+    
   },
   bodyText: {
     color: 'white',

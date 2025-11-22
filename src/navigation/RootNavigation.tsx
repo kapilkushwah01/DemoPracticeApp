@@ -1,31 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { StatusBar } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CameraScreen from '../screens/CameraScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import PostScreen from '../screens/PostScreen';
-import LoginScreen from '../screens/LoginScreen';
-import SplashScreen from '../screens/SplashScreen';
-export type RootStackParamList = {
-  Camera: undefined;
-  Settings: undefined;
-  Post: undefined;
-  LogIn: undefined;
-  Splash: undefined;
-};
+import { NavigationContainer } from '@react-navigation/native';
+import { SettingsProvider } from '../context/SettingsContext';
+import { AuthContext } from '../context/AuthContext';
+import AuthStack from './AuthStack';
+import AppStack from './AppStack';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  if (loading) return null;
   return (
-    <Stack.Navigator
-      screenOptions={{ headerShown: false }}
-      initialRouteName="Splash"
-    >
-      <Stack.Screen name="Splash" component={SplashScreen} />
-      <Stack.Screen name="LogIn" component={LoginScreen} />
-      <Stack.Screen name="Post" component={PostScreen} />
-      <Stack.Screen name="Camera" component={CameraScreen} />
-      <Stack.Screen name="Settings" component={SettingsScreen} />
-    </Stack.Navigator>
+    <SettingsProvider>
+      <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+        <NavigationContainer>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="transparent"
+            translucent
+          />
+          {isLoggedIn ? <AppStack /> : <AuthStack />}
+        </NavigationContainer>
+      </AuthContext.Provider>
+    </SettingsProvider>
   );
 }
