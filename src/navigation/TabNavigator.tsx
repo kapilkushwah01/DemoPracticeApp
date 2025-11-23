@@ -9,15 +9,16 @@ import MessageScreen from '../screens/MessageScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import CustomTabBar from '../components/CustomTabBar';
 import AnimatedTabBar from '../components/AnimatedTabBar';
-const Tab = createBottomTabNavigator<TabParamList>();
+
 export type TabParamList = {
   Home: undefined;
   Setting: undefined;
   Post: undefined;
   Message: undefined;
   Profile: undefined;
+  // Chat: undefined;
 };
-
+const Tab = createBottomTabNavigator<TabParamList>();
 const TabNavigator = () => {
   return (
     <Tab.Navigator

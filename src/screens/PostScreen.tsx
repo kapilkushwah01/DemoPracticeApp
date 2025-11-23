@@ -6,6 +6,8 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
+   StatusBar,
+  Platform,
   ActivityIndicator,
 } from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react';
@@ -97,7 +99,12 @@ const HomeScreen = () => {
     handleFilterData(text, data);
   };
   return (
-    <SafeAreaView style={styles.container}>
+     <SafeAreaView
+          style={[
+            styles.container,
+            { paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 },
+          ]}
+        >
       <View style={{ paddingHorizontal: 10 }}>
         <TextInput
           placeholder="Search Item"
