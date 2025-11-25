@@ -1,32 +1,57 @@
-import { Dispatch } from 'redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { RootState } from '../store';
+
 import {
   USER_REQUEST_LOGIN,
   USER_SUCCESS_LOGIN,
   USER_FAILURE_LOGIN,
   AuthActionTypes,
-  User,
+  AUTO_LOGIN,
+  LOGOUT,
 } from '../types/authActionTypes';
 
-// Fake API login
-const fakeLoginApi = (email: string, password: string): Promise<User> =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (email === 'test@example.com' && password === '123456') {
-        resolve({ email, token: 'fake-token' });
-      } else {
-        reject('Invalid credentials');
-      }
-    }, 1500);
-  });
+// Define a type for Thunk result
+type ThunkResult<R> = ThunkAction<R, RootState, undefined, AuthActionTypes>;
 
-export const login = (email: string, password: string) => {
-  return async (dispatch: Dispatch<AuthActionTypes>) => {
+export const login = (email: string, password: string): ThunkResult<void> => {
+  return async (dispatch) => {
     dispatch({ type: USER_REQUEST_LOGIN });
+
     try {
-      const user = await fakeLoginApi(email, password);
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      const user = {
+        id: 1,
+        email,
+        token: 'dummy-token',
+      };
+
+      await AsyncStorage.setItem('user', JSON.stringify(user));
+
       dispatch({ type: USER_SUCCESS_LOGIN, payload: user });
     } catch (error) {
-      dispatch({ type: USER_FAILURE_LOGIN, payload: error as string });
+      dispatch({ type: USER_FAILURE_LOGIN, payload: String(error) });
     }
+  };
+};
+
+export const autoLogin = (): ThunkResult<void> => {
+  return async (dispatch) => {
+    const user = await AsyncStorage.getItem('user');
+
+    if (user) {
+      dispatch({
+        type: AUTO_LOGIN,
+        payload: JSON.parse(user),
+      });
+    }
+  };
+};
+
+export const logout = (): ThunkResult<void> => {
+  return async (dispatch) => {
+    await AsyncStorage.removeItem('user');
+    dispatch({ type: LOGOUT });
   };
 };

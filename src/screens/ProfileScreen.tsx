@@ -14,8 +14,10 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/actions/authActions';
 export default function ProfileScreen() {
+  const dispatch = useDispatch();
   return (
     <SafeAreaView
       style={[
@@ -66,6 +68,7 @@ export default function ProfileScreen() {
         </View>
       </View>
       <TouchableOpacity
+        onPress={() => dispatch<any>(logout())}
         style={[
           styles.editView,
           {

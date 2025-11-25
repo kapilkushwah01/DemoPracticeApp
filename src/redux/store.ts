@@ -7,3 +7,4 @@ const rootReducer = combineReducers({ auth: authReducer });
 export type RootState = ReturnType<typeof rootReducer>;
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
+export type AppDispatch = typeof store.dispatch;
