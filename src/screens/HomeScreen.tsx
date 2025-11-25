@@ -14,12 +14,14 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 import { TabParamList } from '../navigation/TabNavigator';
 export default function HomeScreen() {
   const [selected, setSelected] = useState('All');
   const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
-
+  const { loading, user, error } = useSelector((state: RootState) => state.auth);
+    console.log("honmscreen",loading, user, error)
   return (
     <SafeAreaView
       style={[

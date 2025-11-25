@@ -7,7 +7,12 @@
 
 import React from 'react';
 import RootNavigator from './src/navigation/RootNavigation';
-
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
 export default function App() {
-  return <RootNavigator />;
+  return (
+    <Provider store={store}>
+      <RootNavigator />
+    </Provider>
+  );
 }
